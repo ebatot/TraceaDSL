@@ -1,0 +1,30 @@
+import 'platform:/resource/Tracea/model/tracea.ecore'
+
+package tracea::core
+context Trace inv firstLevels:
+   self.traceLinks
+   ->includesAll(self.firstLevels)
+   
+context Trace inv sources:
+   self.firstLevels
+   ->collect(source)
+   ->includesAll(self.sources)
+   
+context Trace inv targets:
+   self.tracelinks
+   ->collect(target)
+   ->includesAll(self.targets)
+
+context Trace inv sourceArtefacts:
+   self.firstLevels
+   ->collect(source)
+   ->includesAll(
+      self.sourceArtefacts.fragments)
+   
+context Trace inv targetArtefacts:
+   self.tracelinks
+   ->collect(target)
+   ->includesAll(
+      self.targetArtefacts.fragments)
+
+endpackage
